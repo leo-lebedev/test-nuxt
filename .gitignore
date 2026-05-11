@@ -1,0 +1,20 @@
+# Nuxt
+.nuxt
+.output
+.data
+
+# Dependencies
+node_modules
+.pnpm-store
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS / editors
+.DS_Store
+.idea/workspace.xml
