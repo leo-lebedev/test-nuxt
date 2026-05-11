@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { CatalogTab } from '~/types/catalog'
+import type { CatalogTab, TabId } from '~/types/catalog'
 
 const props = defineProps<{
   tabs: CatalogTab[]
-  activeTabId: string
+  activeTabId: TabId
 }>()
 
 const emit = defineEmits<{
-  select: [tabId: string]
+  select: [tabId: TabId]
 }>()
 
 const tabItems = computed(() => props.tabs.map((tab) => {
@@ -22,7 +22,7 @@ const tabItems = computed(() => props.tabs.map((tab) => {
   }
 }))
 
-const selectTab = (tabId: string) => {
+const selectTab = (tabId: TabId) => {
   emit('select', tabId)
 }
 </script>

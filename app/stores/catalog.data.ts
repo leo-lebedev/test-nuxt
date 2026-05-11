@@ -1,117 +1,98 @@
 import type {
+  Brand,
+  CatalogCardStateRule,
   CatalogGroup,
   CatalogGrouping,
   CatalogModel,
   CatalogNotice,
   CatalogPlan,
   CatalogTab,
+  CurrencyCode,
   Period,
   Region,
   SubscriptionType,
 } from '~/types/catalog'
+import {
+  BRAND_ID,
+  CARD_STATE,
+  CATALOG_GROUP_ID,
+  CATALOG_TAB_KIND,
+  CURRENCY_CODE,
+  NOTICE_ID,
+  PERIOD_ID,
+  PLAN_ACCENT,
+  REGION_ID,
+  SUBSCRIPTION_TYPE_ID,
+  TAB_ID,
+} from '~/stores/catalog.constants'
 
-export const CURRENCY_RUB = 'RUB'
+export const CURRENCY_FORMATTERS: Record<CurrencyCode, (amount: number) => string> = {
+  [CURRENCY_CODE.rub]: (amount) => `${amount} ₽`,
+}
+
 export const DEFAULT_GROUPING_ID = 'by-catalog-group'
-
-export const TAB_ID = {
-  subscriptions: 'subscriptions',
-  giftCards: 'gift-cards',
-} as const
-
-export const REGION_ID = {
-  egypt: 'egypt',
-  india: 'india',
-  nigeria: 'nigeria',
-  netherlands: 'netherlands',
-  brazil: 'brazil',
-} as const
-
-export const PERIOD_ID = {
-  oneMonth: '1-month',
-  threeMonths: '3-months',
-  sixMonths: '6-months',
-  twelveMonths: '12-months',
-} as const
-
-export const SUBSCRIPTION_TYPE_ID = {
-  individual: 'individual',
-  duo: 'duo',
-  family: 'family',
-  platinum: 'platinum',
-  gift: 'gift',
-} as const
-
-export const CATALOG_GROUP_ID = {
-  individual: 'individual',
-  duo: 'duo',
-  family: 'family',
-  platinum: 'platinum',
-  giftCard: 'gift-card',
-} as const
-
-export const NOTICE_ID = {
-  duoLimit: 'duo-limit',
-  familyLimit: 'family-limit',
-  platinumLimit: 'platinum-limit',
-  giftCardsNotice: 'gift-cards-notice',
-} as const
 
 export const DEFAULT_TAB_ID = TAB_ID.subscriptions
 export const DEFAULT_REGION_ID = REGION_ID.egypt
 
-export const CARD_STATE = {
-  available: 'available',
-  selected: 'selected',
-  disabled: 'disabled',
-} as const
-
-export const PLAN_ACCENT = {
-  rose: 'rose',
-  amber: 'amber',
-  blue: 'blue',
-  lavender: 'lavender',
-} as const
-
 export const CATALOG_TABS: CatalogTab[] = [
-  { id: TAB_ID.subscriptions, label: 'Подписки', kind: 'subscriptions' },
-  { id: TAB_ID.giftCards, label: 'Подарочные карты', kind: 'giftCards' },
+  { id: TAB_ID.subscriptions, label: 'Подписки', kind: CATALOG_TAB_KIND.subscriptions },
+  { id: TAB_ID.giftCards, label: 'Подарочные карты', kind: CATALOG_TAB_KIND.giftCards },
 ]
 
 export const REGIONS: Region[] = [
-  { id: REGION_ID.egypt, label: 'Египет', flag: '🇪🇬' },
-  { id: REGION_ID.india, label: 'Индия', flag: '🇮🇳' },
-  { id: REGION_ID.nigeria, label: 'Нигерия', flag: '🇳🇬' },
-  { id: REGION_ID.netherlands, label: 'Нидерланды', flag: '🇳🇱' },
-  { id: REGION_ID.brazil, label: 'Бразилия', flag: '🇧🇷' },
+  { id: REGION_ID.egypt, label: 'Египет', flagUrl: '/figma/region-flag.svg' },
+  { id: REGION_ID.india, label: 'Индия', flagUrl: '/figma/region-flag.svg' },
+  { id: REGION_ID.nigeria, label: 'Нигерия', flagUrl: '/figma/region-flag.svg' },
+  { id: REGION_ID.netherlands, label: 'Нидерланды', flagUrl: '/figma/region-flag.svg' },
+  { id: REGION_ID.brazil, label: 'Бразилия', flagUrl: '/figma/region-flag.svg' },
 ]
 
 export const PERIODS: Period[] = [
-  { id: PERIOD_ID.oneMonth, label: '1 месяц', months: 1 },
-  { id: PERIOD_ID.threeMonths, label: '3 месяца', months: 3 },
-  { id: PERIOD_ID.sixMonths, label: '6 месяцев', months: 6 },
-  { id: PERIOD_ID.twelveMonths, label: '12 месяцев', months: 12 },
+  { id: PERIOD_ID.oneMonth, label: '1 месяц', months: 1, order: 1 },
+  { id: PERIOD_ID.threeMonths, label: '3 месяц', months: 3, order: 3 },
+  { id: PERIOD_ID.sixMonths, label: '6 месяц', months: 6, order: 6 },
+  { id: PERIOD_ID.twelveMonths, label: '12 месяц', months: 12, order: 12 },
 ]
 
 export const SUBSCRIPTION_TYPES: SubscriptionType[] = [
-  { id: SUBSCRIPTION_TYPE_ID.individual, label: 'Individual', title: 'Индивидуальные подписки' },
-  { id: SUBSCRIPTION_TYPE_ID.duo, label: 'Duo', title: 'Парные подписки' },
-  { id: SUBSCRIPTION_TYPE_ID.family, label: 'Family', title: 'Семейные подписки' },
-  { id: SUBSCRIPTION_TYPE_ID.platinum, label: 'Platinum', title: 'Платиновая подписка' },
-  { id: SUBSCRIPTION_TYPE_ID.gift, label: 'Gift', title: 'Подарочные карты' },
+  { id: SUBSCRIPTION_TYPE_ID.individual, label: 'Individual', title: 'Индивидуальные подписки', order: 1 },
+  { id: SUBSCRIPTION_TYPE_ID.duo, label: 'Duo', title: 'Парные подписки', order: 2 },
+  { id: SUBSCRIPTION_TYPE_ID.family, label: 'Family', title: 'Семейные подписки', order: 3 },
+  { id: SUBSCRIPTION_TYPE_ID.platinum, label: 'Platinum', title: 'Платиновая подписка', order: 4 },
+  { id: SUBSCRIPTION_TYPE_ID.gift, label: 'Gift', title: 'Подарочные карты', order: 1 },
 ]
 
 export const CATALOG_GROUPS: CatalogGroup[] = [
-  { id: CATALOG_GROUP_ID.individual, typeId: SUBSCRIPTION_TYPE_ID.individual, order: 1 },
-  { id: CATALOG_GROUP_ID.duo, typeId: SUBSCRIPTION_TYPE_ID.duo, order: 2, noticeId: NOTICE_ID.duoLimit },
-  { id: CATALOG_GROUP_ID.family, typeId: SUBSCRIPTION_TYPE_ID.family, order: 3, noticeId: NOTICE_ID.familyLimit },
-  { id: CATALOG_GROUP_ID.platinum, typeId: SUBSCRIPTION_TYPE_ID.platinum, order: 4, noticeId: NOTICE_ID.platinumLimit },
-  { id: CATALOG_GROUP_ID.giftCard, typeId: SUBSCRIPTION_TYPE_ID.gift, order: 1, noticeId: NOTICE_ID.giftCardsNotice },
+  { id: CATALOG_GROUP_ID.individual, label: 'Individual', title: 'Индивидуальные подписки', order: 1 },
+  { id: CATALOG_GROUP_ID.duo, label: 'DUO', title: 'Парные подписки', order: 2, noticeId: NOTICE_ID.duoLimit },
+  { id: CATALOG_GROUP_ID.family, label: 'Family', title: 'Семейные подписки', order: 3, noticeId: NOTICE_ID.familyLimit },
+  { id: CATALOG_GROUP_ID.platinum, label: 'Platinum', title: 'Платиновая подписка', order: 4, noticeId: NOTICE_ID.platinumLimit },
+  { id: CATALOG_GROUP_ID.giftCard, label: 'Gift', title: 'Подарочные карты', order: 1, noticeId: NOTICE_ID.giftCardsNotice },
+]
+
+export const BRANDS: Brand[] = [
+  { id: BRAND_ID.spotify, label: 'Spotify', title: 'Spotify', logoUrl: '/figma/spotify.svg', order: 1 },
 ]
 
 export const CATALOG_GROUPINGS: CatalogGrouping[] = [
-  { id: 'by-catalog-group', label: 'По группам каталога', source: 'groupId' },
-  { id: 'by-type', label: 'По типу подписки', source: 'typeId' },
-  { id: 'by-period', label: 'По периоду', source: 'periodId' },
+  { id: 'by-catalog-group', label: 'По группам каталога', source: 'group', dictionary: 'groups', noticeDictionary: 'groups' },
+  { id: 'by-type', label: 'По типу подписки', source: 'type', dictionary: 'subscriptionTypes' },
+  { id: 'by-period', label: 'По периоду', source: 'period', dictionary: 'periods' },
+  { id: 'by-brand', label: 'По бренду', source: 'brand', dictionary: 'brands' },
+]
+
+export const CARD_STATE_RULES: CatalogCardStateRule[] = [
+  {
+    state: CARD_STATE.disabled,
+    priority: 100,
+    matches: ({ plan, isRegionAvailable }) => !isRegionAvailable || Boolean(plan.attributes.stateFlags?.includes(CARD_STATE.disabled)),
+  },
+  {
+    state: CARD_STATE.selected,
+    priority: 50,
+    matches: ({ plan, selectedPlanId }) => selectedPlanId === plan.id,
+  },
 ]
 
 export const CATALOG_NOTICES: CatalogNotice[] = [
@@ -141,7 +122,7 @@ export const CATALOG_NOTICES: CatalogNotice[] = [
   },
 ]
 
-const commonPrice = { amount: 263, currency: CURRENCY_RUB }
+const commonPrice = { amount: 263, currency: CURRENCY_CODE.rub }
 const allRegionIds = [
   REGION_ID.egypt,
   REGION_ID.india,
@@ -154,119 +135,151 @@ const randomEgyptOrNigeriaRegionIds = [REGION_ID.egypt, REGION_ID.nigeria]
 export const CATALOG_PLANS: CatalogPlan[] = [
   {
     id: 'individual-1-month',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.individual,
-    typeId: SUBSCRIPTION_TYPE_ID.individual,
-    periodId: PERIOD_ID.oneMonth,
-    regionIds: allRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.individual,
+      type: SUBSCRIPTION_TYPE_ID.individual,
+      period: PERIOD_ID.oneMonth,
+      brand: BRAND_ID.spotify,
+      regionIds: allRegionIds,
+      accent: PLAN_ACCENT.rose,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.rose,
   },
   {
     id: 'individual-3-months',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.individual,
-    typeId: SUBSCRIPTION_TYPE_ID.individual,
-    periodId: PERIOD_ID.threeMonths,
-    regionIds: allRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.individual,
+      type: SUBSCRIPTION_TYPE_ID.individual,
+      period: PERIOD_ID.threeMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: allRegionIds,
+      accent: PLAN_ACCENT.rose,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.rose,
   },
   {
     id: 'individual-6-months',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.individual,
-    typeId: SUBSCRIPTION_TYPE_ID.individual,
-    periodId: PERIOD_ID.sixMonths,
-    regionIds: allRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.individual,
+      type: SUBSCRIPTION_TYPE_ID.individual,
+      period: PERIOD_ID.sixMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: allRegionIds,
+      accent: PLAN_ACCENT.rose,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.rose,
   },
   {
     id: 'individual-12-months',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.individual,
-    typeId: SUBSCRIPTION_TYPE_ID.individual,
-    periodId: PERIOD_ID.twelveMonths,
-    regionIds: allRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.individual,
+      type: SUBSCRIPTION_TYPE_ID.individual,
+      period: PERIOD_ID.twelveMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: allRegionIds,
+      accent: PLAN_ACCENT.rose,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.rose,
   },
   {
     id: 'duo-1-month',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.duo,
-    typeId: SUBSCRIPTION_TYPE_ID.duo,
-    periodId: PERIOD_ID.oneMonth,
-    regionIds: randomEgyptOrNigeriaRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.duo,
+      type: SUBSCRIPTION_TYPE_ID.duo,
+      period: PERIOD_ID.oneMonth,
+      brand: BRAND_ID.spotify,
+      regionIds: randomEgyptOrNigeriaRegionIds,
+      accent: PLAN_ACCENT.amber,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.amber,
   },
   {
     id: 'duo-3-months',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.duo,
-    typeId: SUBSCRIPTION_TYPE_ID.duo,
-    periodId: PERIOD_ID.threeMonths,
-    regionIds: randomEgyptOrNigeriaRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.duo,
+      type: SUBSCRIPTION_TYPE_ID.duo,
+      period: PERIOD_ID.threeMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: randomEgyptOrNigeriaRegionIds,
+      accent: PLAN_ACCENT.amber,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.amber,
   },
   {
     id: 'duo-12-months',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.duo,
-    typeId: SUBSCRIPTION_TYPE_ID.duo,
-    periodId: PERIOD_ID.twelveMonths,
-    regionIds: randomEgyptOrNigeriaRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.duo,
+      type: SUBSCRIPTION_TYPE_ID.duo,
+      period: PERIOD_ID.twelveMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: randomEgyptOrNigeriaRegionIds,
+      accent: PLAN_ACCENT.amber,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.amber,
   },
   {
     id: 'family-6-months',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.family,
-    typeId: SUBSCRIPTION_TYPE_ID.family,
-    periodId: PERIOD_ID.sixMonths,
-    regionIds: randomEgyptOrNigeriaRegionIds,
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.family,
+      type: SUBSCRIPTION_TYPE_ID.family,
+      period: PERIOD_ID.sixMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: randomEgyptOrNigeriaRegionIds,
+      accent: PLAN_ACCENT.blue,
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.blue,
   },
   {
     id: 'platinum-6-months',
-    tabId: TAB_ID.subscriptions,
-    groupId: CATALOG_GROUP_ID.platinum,
-    typeId: SUBSCRIPTION_TYPE_ID.platinum,
-    periodId: PERIOD_ID.sixMonths,
-    regionIds: [REGION_ID.india],
+    attributes: {
+      tab: TAB_ID.subscriptions,
+      group: CATALOG_GROUP_ID.platinum,
+      type: SUBSCRIPTION_TYPE_ID.platinum,
+      period: PERIOD_ID.sixMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: [REGION_ID.india],
+      accent: PLAN_ACCENT.lavender,
+      labelOverride: 'Family',
+    },
     price: commonPrice,
-    accent: PLAN_ACCENT.lavender,
   },
   {
     id: 'gift-card-1-month',
-    tabId: TAB_ID.giftCards,
-    groupId: CATALOG_GROUP_ID.giftCard,
-    typeId: SUBSCRIPTION_TYPE_ID.gift,
-    periodId: PERIOD_ID.oneMonth,
-    regionIds: allRegionIds,
-    price: { amount: 500, currency: CURRENCY_RUB },
-    accent: PLAN_ACCENT.amber,
+    attributes: {
+      tab: TAB_ID.giftCards,
+      group: CATALOG_GROUP_ID.giftCard,
+      type: SUBSCRIPTION_TYPE_ID.gift,
+      period: PERIOD_ID.oneMonth,
+      brand: BRAND_ID.spotify,
+      regionIds: allRegionIds,
+      accent: PLAN_ACCENT.amber,
+    },
+    price: { amount: 500, currency: CURRENCY_CODE.rub },
   },
   {
     id: 'gift-card-3-months',
-    tabId: TAB_ID.giftCards,
-    groupId: CATALOG_GROUP_ID.giftCard,
-    typeId: SUBSCRIPTION_TYPE_ID.gift,
-    periodId: PERIOD_ID.threeMonths,
-    regionIds: allRegionIds,
-    price: { amount: 1200, currency: CURRENCY_RUB },
-    accent: PLAN_ACCENT.rose,
+    attributes: {
+      tab: TAB_ID.giftCards,
+      group: CATALOG_GROUP_ID.giftCard,
+      type: SUBSCRIPTION_TYPE_ID.gift,
+      period: PERIOD_ID.threeMonths,
+      brand: BRAND_ID.spotify,
+      regionIds: allRegionIds,
+      accent: PLAN_ACCENT.rose,
+    },
+    price: { amount: 1200, currency: CURRENCY_CODE.rub },
   },
 ]
 
-export const DEFAULT_SELECTED_PLAN_BY_GROUP_ID: Record<string, string> = {
-  [CATALOG_GROUP_ID.duo]: 'duo-12-months',
-}
+export const DEFAULT_SELECTED_PLAN_ID = 'duo-12-months'
 
 export const CATALOG_MODEL: CatalogModel = {
   tabs: CATALOG_TABS,
@@ -274,6 +287,7 @@ export const CATALOG_MODEL: CatalogModel = {
   periods: PERIODS,
   subscriptionTypes: SUBSCRIPTION_TYPES,
   groups: CATALOG_GROUPS,
+  brands: BRANDS,
   notices: CATALOG_NOTICES,
   plans: CATALOG_PLANS,
   groupings: CATALOG_GROUPINGS,

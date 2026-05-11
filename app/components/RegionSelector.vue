@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { Region } from '~/types/catalog'
+import type { Region, RegionId } from '~/types/catalog'
 
 const props = defineProps<{
   regions: Region[]
-  selectedRegionId: string
+  selectedRegionId: RegionId
 }>()
 
 const emit = defineEmits<{
-  select: [regionId: string]
+  select: [regionId: RegionId]
 }>()
 
 const regionItems = computed(() => props.regions.map((region) => {
@@ -20,30 +20,25 @@ const regionItems = computed(() => props.regions.map((region) => {
   }
 }))
 
-const selectRegion = (regionId: string) => {
+const selectRegion = (regionId: RegionId) => {
   emit('select', regionId)
 }
 </script>
 
 <template>
-  <fieldset class="region-selector" aria-label="Регион подписки">
-    <legend class="sr-only">Регион подписки</legend>
-    <label
+  <div class="region-selector" role="radiogroup" aria-label="Регион подписки">
+    <button
       v-for="region in regionItems"
       :key="region.id"
       class="region-selector__pill"
       :class="region.className"
+      type="button"
+      role="radio"
+      :aria-checked="region.isActive"
+      @click="selectRegion(region.id)"
     >
-      <input
-        class="region-selector__input sr-only"
-        type="radio"
-        name="region"
-        :value="region.id"
-        :checked="region.isActive"
-        @change="selectRegion(region.id)"
-      >
-      <span class="region-selector__flag" aria-hidden="true">{{ region.flag }}</span>
+      <img class="region-selector__flag" :src="region.flagUrl" alt="" aria-hidden="true">
       <span class="region-selector__label">{{ region.label }}</span>
-    </label>
-  </fieldset>
+    </button>
+  </div>
 </template>

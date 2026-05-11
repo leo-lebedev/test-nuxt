@@ -11,7 +11,7 @@ const emit = defineEmits<{
 }>()
 
 const cardClassName = computed(() => [
-  `plan-card--${props.plan.accent}`,
+  `plan-card--${props.plan.attributes.accent}`,
   `plan-card--${props.plan.state}`,
 ])
 const isSelected = computed(() => props.plan.state === 'selected')
@@ -32,7 +32,7 @@ const selectPlan = () => {
     @click="selectPlan"
   >
     <span class="plan-card__logo" aria-hidden="true">
-      <img src="/figma/spotify.svg" alt="">
+      <img :src="plan.brandLogoUrl" alt="">
     </span>
     <span v-if="isSelected" class="plan-card__badge">Выбрано</span>
     <span class="plan-card__body">
